@@ -323,10 +323,12 @@ P CircumscribedCircle(const G &g) { //三角形の外接円の半径
 
 P inP(){
   double x,y;
+//  scanf("%lf,%lf", &x, &y);
   cin >> x >> y;
   P p(x,y);
   return p;
 }
+
 
 L inL(){
   P p1 = inP();
@@ -342,6 +344,16 @@ C inC(){
   C c(p,r);
   return c;
 }
+
+
+G inG(int n){
+  G g(n);
+  for(int i = 0; i < n; i++){
+    g[i] = inP();
+  }
+  return g;
+}
+
 
 int main(){
 
