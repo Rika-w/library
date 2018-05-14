@@ -48,16 +48,21 @@ private:
 };
 
 
+
 //ここから
 
-struct edge{ int from, to, cost; };
+struct edge{
+    int from, to, cost;
 
-int kruskal(const vector<edge> &es, int v){
+    bool operator<(const edge& e) const {
+        return cost < e.cost;
+    }
 
-    sort(es.begin(), es.end(), [](const edge &a, const edge &b)
-      {
-        return (a.cost < b.cost);
-      });
+};
+
+int kruskal(vector<edge> es, int v){
+
+    sort(es.begin(), es.end());
 
      UnionFind uf(v);
 
@@ -79,7 +84,30 @@ int kruskal(const vector<edge> &es, int v){
 }
 
 /*
-
-辺集合と頂点数を渡すと最小全域木の重みを求める
+使い方
+kruskal(g,v); で辺集合g、頂点数vのグラフの最小全域木の重みを求める
 
 */
+
+/*
+2018/5/14
+http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_2_A&lang=jp
+*/
+
+int main(void) {
+    int i,j;
+    int n;
+    int v,e;
+    cin >> v >> e;
+
+    vector<edge> g;
+
+    rep(i,e){
+        edge t;
+        cin >> t.from >> t.to >> t.cost;
+        g.push_back(t);
+    }
+
+    cout << kruskal(g,v) << endl;
+
+}
