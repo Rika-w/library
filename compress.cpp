@@ -47,6 +47,10 @@ int sum(int i,int j,int k,int l){//y,xで渡す（小大
   return grid[k][l]-grid[i][l]-grid[k][j]+grid[i][j];
 }
 
+int idx(int i,vector<int> &c){
+  return lower_bound(c.begin(),c.end(),i)-c.begin();
+}
+
 int main(void) {
   int i,j;
   int n;
@@ -65,10 +69,10 @@ int main(void) {
   compress(y);
 
   rep(i,n){
-    int lx=lower_bound(all(x),p[i].first.first)-x.begin();
-    int ly=lower_bound(all(y),p[i].first.second)-y.begin();
-    int rx=lower_bound(all(x),p[i].second.first)-x.begin();
-    int ry=lower_bound(all(y),p[i].second.second)-y.begin();
+    int lx=idx(p[i].first.first,x);
+    int ly=idx(p[i].first.second,y);
+    int rx=idx(p[i].second.first,x);
+    int ry=idx(p[i].second.second,y);
 
     grid[lx][ly]++;
     grid[rx][ry]++;
