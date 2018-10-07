@@ -63,6 +63,33 @@ int expression(){
   return ret;
 }
 
+/*
+//演算子の優先順序なし
+int f(){
+    int ret = number();
+    while(1){
+        if(s[ind] == '+'){
+            ind++;
+            ret += number();
+	}else if(s[ind] == '-'){
+	    ind++;
+	    ret -= number();
+        }else if(s[ind] == '*'){
+            ind++;
+            ret *= number();
+	}else if(s[ind] == '/'){
+	    ind++;
+	    ret /= number();
+        }else{
+            break;
+        }
+    }
+    return ret;
+}
+
+
+
+ */
 int main(void) {
   int i,j;
   cin >> s;
