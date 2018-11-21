@@ -70,6 +70,56 @@ a.query(a,b); で [a,b) の区間を調べる
 
 //https://beta.atcoder.jp/contests/abc095/submissions/2978868
 
+
+/*
+
+pair型の RMQ
+firstに要素、secondにindexが入っている。
+https://code-festival-2018-final-open.contest.atcoder.jp/submissions/3630832
+
+class SegTree{
+
+private:
+
+    int n;
+    vector<pii> seg;
+    pii init = pii(INF,INF); //初期化の値（単位元）
+    pii combine(pii a, pii b){
+        if(a.first == b.first && a.second < b.second)return a;
+        if(a.first < b.first)return a;
+        return b;
+    }
+
+public:
+
+
+	SegTree(const vector<pii> &in){
+		n=1;
+		while(n<in.size())n<<=1;
+		seg=vector<pii>(2*n,init);
+		for(int i=n-1+in.size()-1;i>=0;i--){
+			if(n-1<=i)seg[i]=in[i-(n-1)];
+			else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
+		}
+	}
+
+    //[a,b)について調べる
+    pii query(int a,int b,int k=0,int l=0,int r=-1){
+        if(r==-1)r=n;
+        if(r<=a || b<=l)return init;
+        if(a<=l &&r<=b)return seg[k];
+
+        pii vl=query(a,b,k*2+1,l,(l+r)/2);
+        pii vr=query(a,b,k*2+2,(l+r)/2,r);
+
+        return combine(vl,vr);
+    }
+};
+ */
+
+
+
+
 signed main(void) {
     int i,j;
     int n, c;
