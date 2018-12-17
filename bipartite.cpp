@@ -1,5 +1,4 @@
 
-
 class Bipartite{
 private:
     vector<vi> g;
@@ -7,7 +6,6 @@ private:
     int n;
     vector<int> used;
     int cnt[2];
-    vector<pii> p;
 
     void dfs(int now){
         cnt[used[now]]++;
@@ -35,6 +33,7 @@ public:
         g[a].push_back(b);
         g[b].push_back(a);//有向辺の場合はここをコメントアウト
     }
+    vector<pii> p;
 
     bool is_bipartite(){//二部グラフ判定
         p.clear();
