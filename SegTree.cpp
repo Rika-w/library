@@ -30,7 +30,7 @@ public:
 	}
 
 
-    //k-th(0-indexd) wo a
+    //k-th(0-indexd) を a
     void update(int k,int a){
       k+=n-1;
       seg[k]=a;
@@ -92,7 +92,18 @@ private:
 
 public:
 
+    SegTree(const vi &in){
+        n=1;
+        while(n<in.size())n<<=1;
+        seg=vector<pii>(2*n,init);
+        for(int i=n-1+in.size()-1;i>=0;i--){
+            if(n-1<=i)seg[i]=pii(in[i-(n-1)],i);
+            else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
+        }
+    }
 
+
+    //これいらない
 	SegTree(const vector<pii> &in){
 		n=1;
 		while(n<in.size())n<<=1;
@@ -102,6 +113,7 @@ public:
 			else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
 		}
 	}
+
 
     //[a,b)について調べる
     pii query(int a,int b,int k=0,int l=0,int r=-1){
