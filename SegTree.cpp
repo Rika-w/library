@@ -13,6 +13,8 @@ private:
 
 public:
 
+    SegTree (){}
+
     SegTree(int size){
 		n=1;
 		while(n<size)n<<=1;
@@ -92,12 +94,14 @@ private:
 
 public:
 
+    SegTree (){}
+
     SegTree(const vi &in){
         n=1;
         while(n<in.size())n<<=1;
         seg=vector<pii>(2*n,init);
         for(int i=n-1+in.size()-1;i>=0;i--){
-            if(n-1<=i)seg[i]=pii(in[i-(n-1)],i);
+            if(n-1<=i)seg[i]=pii(in[i-(n-1)],i-(n-1));
             else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
         }
     }
