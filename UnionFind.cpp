@@ -8,44 +8,35 @@ const int error = 1e9;
 class UnionFind{
 
 private:
-    vector<int> rank,p;
-
-    void makeSet(int x){
-      p[x] = x;
-      rank[x] = 0;
-    }
+    vector<int> data;
 
   public:
       UnionFind(){};
       UnionFind(int size){
-        rank.resize(size,0);
-        p.resize(size,0);
-        for(int i = 0; i < size; i++){
-          makeSet(i);
-        }
+          data = vi(size, -1);
       }
 
     bool same(int x, int y){
       return  find(x) == find(y);
     }
 
-    void unite(int x, int y){
-      link(find(x), find(y));
+    bool unite(int x, int y){
+        if(same(x,y)) return(false);
+        x = find(x);
+        y = find(y);
+        if(data[x] > data[y]) swap(x, y);
+        data[x] += data[y];
+        data[y] = x;
+        return(true);
     }
 
     int find(int x){
-      if(x != p[x]) p[x] = find(p[x]);
-      return p[x];
+        if(data[x] < 0) return(x);
+        return(data[x] = find(data[x]));
     }
 
-private:
-    void link(int x, int y){
-      if(rank[x] > rank[y]){
-        p[y] = x;
-      }else{
-        p[x] = y;
-        if(rank[x] == rank[y]) rank[y]++;
-      }
+    int size(int x){
+        return(-data[find(x)]);
     }
 
 };
@@ -118,9 +109,10 @@ private:
 UnionFind:
 
 UnionFind uf = UnionFind(n); で n 要素のUF木を宣言
-uf.unite(a,b); で x_a と x_b を繋ぐ
+uf.unite(a,b); で x_a と x_b を繋ぐ（繋いであったらfalseが返る）
 uf.find(x); で x の親の添え字を返す
 uf.same(a,b); で a と b の親が等しいかを返す
+uf.size(x); で x の連結成分の大きさ
 
 WeightedUnionFind:
 
