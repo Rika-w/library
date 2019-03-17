@@ -42,6 +42,17 @@ private:
 };
 
 
+/*
+UnionFind　使い方
+
+UnionFind uf = UnionFind(n); で n 要素のUF木を宣言
+uf.unite(a,b); で x_a と x_b を繋ぐ（繋いであったらfalseが返る）
+uf.find(x); で x の親の添え字を返す
+uf.same(a,b); で a と b の親が等しいかを返す
+uf.size(x); で x の連結成分の大きさを返す
+*/
+
+
 class WeightedUnionFind{
 
 private:
@@ -102,19 +113,8 @@ private:
 
 };
 
-
 /*
-使い方
-
-UnionFind:
-
-UnionFind uf = UnionFind(n); で n 要素のUF木を宣言
-uf.unite(a,b); で x_a と x_b を繋ぐ（繋いであったらfalseが返る）
-uf.find(x); で x の親の添え字を返す
-uf.same(a,b); で a と b の親が等しいかを返す
-uf.size(x); で x の連結成分の大きさ
-
-WeightedUnionFind:
+WeightedUnionFind　使い方
 
 WeightedUnionFind wuf = WeightedUnionFind(n); で n 要素の重み付きUF木を宣言
 wuf.relate(x,y,z); で a_y が a_x より z 大きいという関係を構築
@@ -123,6 +123,69 @@ wuf.same(x,y); で x と y の親が等しいかを返す
 wuf.diff(x,y); a_x と a_y の差 (a_y - a_x) を返す (未定義の場合は error を返す)
 
 */
+
+
+//Quick Find Weighted
+//https://topcoder.g.hatena.ne.jp/iwiwi/20131226/1388062106
+//O(NlogN)
+//https://yukicoder.me/problems/no/416など
+
+class QuickFind{
+
+private:
+    vector<int> i2g;          // i2g[i] := アイテム i の所属するグループの番号
+    vector<vector<int> > g2i;  // g2i[g] := グループ g に所属するアイテムたち
+
+public:
+    QuickFind(){};
+    QuickFind(int size){
+        i2g.resize(size);
+        g2i.resize(size);
+        for (int i = 0; i < size; i++) {
+        // 最初はアイテム i はグループ i に所属
+            i2g[i] = i;
+            g2i[i].assign(1, i);
+        }
+    }
+
+    // アイテム ia の所属するグループとアイテム ib の所属するグループを 1 つにする
+    void merge(int ia, int ib) {
+        if(same(ia,ib))return;
+        // ia の所属するグループが ib の所属するグループより小さくならないようにする
+        if (g2i[i2g[ia]].size() < g2i[i2g[ib]].size()) {
+            swap(ia, ib);
+        }
+        int ga = i2g[ia], gb = i2g[ib];
+        // グループ gb に所属する全てのアイテムをグループ ga に移す
+        for (int i = 0; i < g2i[gb].size(); i++) i2g[g2i[gb][i]] = ga;
+        g2i[ga].insert(g2i[ga].end(), g2i[gb].begin(), g2i[gb].end());
+        g2i[gb].clear();
+    }
+
+    // アイテム id と同じグループに所属しているアイテムを取得
+    vector<int> get_group(int id){
+        vector<int> ret;
+        id = i2g[id];
+        for(int i = 0; i < g2i[id].size(); i++)ret.push_back(g2i[id][i]);
+        return ret;
+    }
+
+    // アイテム ia とアイテム ib は同じグループに所属しているか？
+    bool same(int ia, int ib) {
+        return i2g[ia] == i2g[ib];
+    }
+};
+
+
+/*
+QuickFind　使い方
+
+QuickFind qf = QuickFind(n); で n 要素のUF木を宣言
+qf.merge(a,b); で a の所属するグループと b の所属するグループを 1 つにする
+qf.same(a,b); で a と b は同じグループに所属しているか？を返す
+qf.get_group(x); で x と同じグループに所属しているものを返す
+*/
+
 
 
 
