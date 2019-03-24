@@ -50,6 +50,7 @@ struct L : public vector<P> {
 struct C {
   P c;double r;
   C(const P &c,double r):c(c),r(r){}
+  C(){;}
 };
 
 namespace std{//演算子の定義
