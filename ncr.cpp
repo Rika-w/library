@@ -5,6 +5,10 @@
 using namespace std;
 #define rep(i,n) for(i=0;i<n;i++)
 #define MOD 1000000007LL
+
+// mod P において、a/bは　a*beki(b,P-2) と等価
+
+
 /*
 long long factorical(int n)
 {
