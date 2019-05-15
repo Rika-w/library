@@ -34,22 +34,22 @@ public:
 
     //k-th(0-indexd) を a にする
     void update(int k, int a){
-      k += n-1;
-      seg[k] = a;
-      while(k > 0){
-        k = (k-1)/2;
-        seg[k] = combine(seg[k*2+1], seg[k*2+2]);
-      }
+        k += n-1;
+        seg[k] = a;
+        while(k > 0){
+            k = (k-1)/2;
+            seg[k] = combine(seg[k*2+1], seg[k*2+2]);
+        }
     }
 
     //k-th(0-indexd) を +a する
     void add(int k, int a){
-      k += n-1;
-      seg[k] += a;
-      while(k > 0){
-        k = (k-1)/2;
-        seg[k] = combine(seg[k*2+1], seg[k*2+2]);
-      }
+        k += n-1;
+        seg[k] += a;
+        while(k > 0){
+            k = (k-1)/2;
+            seg[k] = combine(seg[k*2+1], seg[k*2+2]);
+        }
     }
 
     //[a,b)について調べる
@@ -88,8 +88,8 @@ a.query(a,b); で [a,b) の区間を調べる
 pair型の RMQ
 firstに要素、secondにindexが入っている。
 https://code-festival-2018-final-open.contest.atcoder.jp/submissions/3630832
-
-class SegTree{
+*/
+class SegTreePair{
 
 private:
 
@@ -104,19 +104,19 @@ private:
 
 public:
 
-    SegTree (){}
+    SegTreePair (){}
 
-    SegTree(const vi &in){
-        n=1;
-        while(n<in.size())n<<=1;
-        seg=vector<pii>(2*n,init);
-        for(int i=n-1+in.size()-1;i>=0;i--){
-            if(n-1<=i)seg[i]=pii(in[i-(n-1)],i-(n-1));
-            else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
+    SegTreePair(const vi &in){
+        n = 1;
+        while(n < in.size())n <<= 1;
+        seg = vector<pii>(2*n,init);
+        for(int i = n-1 + in.size() - 1; i >= 0; i--){
+            if(n-1 <= i)seg[i] = pii(in[i-(n-1)], i-(n-1));
+            else seg[i] = combine(seg[i*2+1], seg[i*2+2]);
         }
     }
 
-
+    /*
     //これいらない
 	SegTree(const vector<pii> &in){
 		n=1;
@@ -127,21 +127,21 @@ public:
 			else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
 		}
 	}
-
+    */
 
     //[a,b)について調べる
-    pii query(int a,int b,int k=0,int l=0,int r=-1){
-        if(r==-1)r=n;
-        if(r<=a || b<=l)return init;
-        if(a<=l &&r<=b)return seg[k];
+    pii query(int a, int b, int k = 0, int l = 0, int r = -1){
+        if(r == -1) r = n;
+        if(r <= a || b <= l)return init;
+        if(a <= l && r <= b)return seg[k];
 
-        pii vl=query(a,b,k*2+1,l,(l+r)/2);
-        pii vr=query(a,b,k*2+2,(l+r)/2,r);
+        pii vl = query(a, b, k*2+1, l, (l+r)/2);
+        pii vr = query(a, b, k*2+2, (l+r)/2, r);
 
-        return combine(vl,vr);
+        return combine(vl, vr);
     }
 };
- */
+
 
 
 
