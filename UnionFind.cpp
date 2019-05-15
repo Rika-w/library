@@ -13,11 +13,11 @@ private:
   public:
       UnionFind(){};
       UnionFind(int size){
-          data = vi(size, -1);
+          data = vector<int>(size, -1);
       }
 
     bool same(int x, int y){
-      return  find(x) == find(y);
+        return find(x) == find(y);
     }
 
     bool unite(int x, int y){
@@ -58,59 +58,58 @@ class WeightedUnionFind{
 private:
     vector<int> rank,p,d;
 
-  public:
-      WeightedUnionFind(){};
-      WeightedUnionFind(int size){
+    void link(int x, int y, int z){
+        if(rank[x] > rank[y]){
+            p[y] = x;
+            d[y] = -z;
+        }else{
+            p[x] = y;
+            d[x] = z;
+            if(rank[x] == rank[y]) rank[y]++;
+        }
+    }
+
+public:
+    WeightedUnionFind(){};
+    WeightedUnionFind(int size){
         rank.resize(size,0);
         p.resize(size,0);
         d.resize(size,0);
         for(int i = 0; i < size; i++){
-          p[i] = i;
+            p[i] = i;
         }
-      }
+    }
 
     bool same(int x, int y){
-      return  find(x) == find(y);
+        return find(x) == find(y);
     }
 
     void relate(int x, int y, int z){
-      int px = find(x);
-      int py = find(y);
-      link(px, py, d[y] + z - d[x]);
-      find(x);
-      find(y);
+        int px = find(x);
+        int py = find(y);
+        link(px, py, d[y] + z - d[x]);
+        find(x);
+        find(y);
     }
 
     int find(int x){
-      if(x != p[x]){
-        int par = find(p[x]);
-        d[x] += d[p[x]];
-        p[x] = par;
-      }
-      return p[x];
+        if(x != p[x]){
+            int par = find(p[x]);
+            d[x] += d[p[x]];
+            p[x] = par;
+        }
+        return p[x];
     }
 
     int diff(int x, int y){
-      find(x);
-      find(y);
-      if(same(x,y)){
-        return d[x] - d[y];
-      }else{
-        return error;
-      }
+        find(x);
+        find(y);
+        if(same(x,y)){
+            return d[x] - d[y];
+        }else{
+            return error;
+        }
     }
-private:
-    void link(int x, int y, int z){
-      if(rank[x] > rank[y]){
-        p[y] = x;
-        d[y] = -z;
-      }else{
-        p[x] = y;
-        d[x] = z;
-        if(rank[x] == rank[y]) rank[y]++;
-      }
-    }
-
 };
 
 /*
