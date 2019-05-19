@@ -9,11 +9,12 @@ class UnionFind{
 
 private:
     vector<int> data;
-
+    int num;
   public:
       UnionFind(){};
       UnionFind(int size){
           data = vector<int>(size, -1);
+          num = size;
       }
 
     bool same(int x, int y){
@@ -27,6 +28,7 @@ private:
         if(data[x] > data[y]) swap(x, y);
         data[x] += data[y];
         data[y] = x;
+        num--;
         return(true);
     }
 
@@ -39,6 +41,9 @@ private:
         return(-data[find(x)]);
     }
 
+    int count(){
+        return num;
+    }
 };
 
 
