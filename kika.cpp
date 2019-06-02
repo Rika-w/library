@@ -133,6 +133,9 @@ bool intersectSP(const L &s, const P &p) { //直線と点の交差判定
   return abs(s[0]-p)+abs(s[1]-p)-abs(s[1]-s[0]) < EPS; // 三角不等式
 }
 
+bool intersectSL(const L &s, const L &l){
+    return cross(l[1] - l[0], s[0] - l[0]) * cross(l[1] - l[0], s[1] - l[0]) < EPS;
+}
 
 P crosspointSS(const L &a, const L &b) { //2線分の交点
 double t1=abs(cross(a[1]-a[0],b[0]-a[0]));
@@ -170,6 +173,15 @@ L crosspointCC(C a,C b){ //2円の交点
 	return L(p1, p2);
 }
 
+double distanceGL(const G &g, const L &l){//凸多角形と直線の距離
+    double ret = LINF;
+    int n = g.size();
+    rep(i,n){
+        L l2(g[i],g[(i+1)%n]);
+        ret = min(ret, distanceSS(l2,l));
+    }
+    return ret;
+}
 
 double distancePP(const P &p, const P &q){ //2点間の距離
   return hypot(p.real()-q.real(), p.imag()-q.imag());
