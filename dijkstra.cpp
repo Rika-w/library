@@ -2,10 +2,10 @@
 typedef pair<int,int> pii;
 
 
-struct edge { int to, cost;};
 
 class Dijkstra{
 private:
+    struct edge { int to, cost;};
     vector< vector<edge> > g;
 
 public:
@@ -88,3 +88,99 @@ int main(void) {
     }
 
 }
+
+/*
+// AOJ 2200 r <= 10
+
+class Dijkstra{
+private:
+    struct edge { int to, cost, land;};
+    struct node {
+        int rind, now, boat;
+        bool operator >(node const& other) const {
+            return rind > other.rind;
+        }
+        bool operator <(node const& other) const {
+            return rind < other.rind;
+        }
+    };
+    typedef pair<int,node> pin;
+    vector< vector<edge> > g;
+
+public:
+    Dijkstra(){};
+    Dijkstra(int size){
+        g.resize(size);
+    }
+
+    int dist[10][200][200];
+
+    void add(int a, int b, int cost, int land){//無向辺
+        edge e1 = {b, cost, land}, e2 = {a, cost, land};
+        g[a].push_back(e1);
+        g[b].push_back(e2);//有向辺の場合はここをコメントアウトする
+    }
+
+    int calc(vi a){
+        priority_queue< pin, vector<pin>, greater<pin> > q;
+        int n = g.size();
+        int r = a.size();
+        rep(i,r)rep(j,n)rep(k,n)dist[i][j][k] = LINF;
+        dist[0][a[0]][a[0]] = 0;
+        node no = {0,a[0],a[0]};
+        q.push(pin(0, no));
+
+        while(!q.empty()){
+            pin p = q.top();
+            q.pop();
+            node v = p.second;
+            if(dist[v.rind][v.now][v.boat] < p.first)continue; //更新されていたら何もしない
+            if(v.rind == r-1)continue;
+            for(int i = 0; i < g[v.now].size(); i++){
+                edge e = g[v.now][i];
+                int x = v.rind + (e.to == a[v.rind+1]);
+                if(e.land){//陸
+                    if(dist[x][e.to][v.boat] > dist[v.rind][v.now][v.boat] + e.cost){
+                        dist[x][e.to][v.boat] = dist[v.rind][v.now][v.boat] + e.cost;
+                        node ne = {x, e.to, v.boat};
+                        q.push(pin(dist[x][e.to][v.boat],ne));
+                    }
+                }
+                if(e.land == 0 && v.now == v.boat){//海
+                    if(dist[x][e.to][e.to] > dist[v.rind][v.now][v.boat] + e.cost){
+                        dist[x][e.to][e.to] = dist[v.rind][v.now][v.boat] + e.cost;
+                        node ne = {x, e.to, e.to};
+                        q.push(pin(dist[x][e.to][e.to],ne));
+                    }
+                }
+            }
+        }
+
+        int ret = LINF;
+        rep(i,n)ret = min(ret, dist[r-1][a[r-1]][i]);
+        return ret;
+    }
+
+};
+
+signed main(void) {
+    int n,m;
+    while(cin >> n >> m, n){
+        Dijkstra dij(n);
+        rep(i,m){
+            int a,b,c;
+            string s;
+            cin >> a >> b >> c >> s;
+            a--,b--;
+            dij.add(a, b, c, s == "L");
+        }
+        int r;
+        cin >> r;
+        vi in(r);
+        rep(i,r)cin >> in[i],in[i]--;
+        cout << dij.calc(in) << endl;
+    }
+
+}
+
+*/
