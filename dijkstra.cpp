@@ -184,3 +184,113 @@ signed main(void) {
 }
 
 */
+/*
+
+AOJ2585
+
+class Dijkstra{
+private:
+    struct edge { int to, cost, tim, com;};
+    struct node {
+        int ind, tim;
+        bool operator >(node const& other) const {
+            return tim > other.tim;
+        }
+        bool operator <(node const& other) const {
+            return tim < other.tim;
+        }
+    };
+    typedef pair<int,node> pin;
+    vector< vector<edge> > g;
+    int n;
+public:
+    Dijkstra(){};
+    Dijkstra(int size){
+        n = size;
+        g.resize(n);
+    }
+    int dist[105][25];//頂点iに時刻jでいるときの最小コスト
+    void add(int a, int b, int cost, int tim, int com){//無向辺
+        edge e1 = {b, cost, tim, com}, e2 = {a, cost, tim, com};
+        g[a].push_back(e1);
+        g[b].push_back(e2);//有向辺の場合はここをコメントアウトする
+    }
+    int calc(int s, int t, int ma, int bit){
+        priority_queue< pin, vector<pin>, greater<pin> > q;
+        rep(i,n)rep(j,ma+1)dist[i][j] = LINF;
+        dist[s][0] = 0;
+        node no = {s,0};
+        q.push(pin(0, no));
+        while(!q.empty()){
+            pin p = q.top();
+            q.pop();
+            int now = p.second.ind;
+            int tim = p.second.tim;
+            if(dist[now][tim] < p.first)continue; //更新されていたら何もしない
+            for(int i = 0; i < g[now].size(); i++){
+                edge e = g[now][i];
+                int cost = e.cost;
+                if(bit & (1<<e.com))cost = 0;
+                int nexttime = tim + e.tim;
+                if(ma < nexttime)continue;//ma以内に到達できない
+                if(dist[e.to][nexttime] > dist[now][tim] + cost){
+                    dist[e.to][nexttime] = dist[now][tim] + cost;
+                    node ne = {e.to, nexttime};
+                    q.push(pin(dist[e.to][nexttime],ne));
+                }
+            }
+        }
+        int ret = LINF;
+        rep(i,ma+1)ret = min(ret, dist[t][i]);
+        return ret;
+    }
+};
+
+signed main(void) {
+    int n,m,ma,k;
+    while(cin >> n >> m >> ma >> k, n){
+        Dijkstra dij(n);
+        rep(i,m){
+            int a,b,c,h,r;
+            cin >> a >> b >> c >> h >> r;
+            a--,b--;r--;
+            dij.add(a,b,c,h,r);
+        }
+        int s,t;
+        cin >> s >> t;
+        s--,t--;
+        int p;
+        cin >> p;
+        vi d(p);
+        vector<vi> l(p);
+        rep(i,p){
+            int a;
+            cin >> a >> d[i];
+            rep(j,a){
+                int b;
+                cin >> b;
+                b--;
+                l[i].push_back(b);
+            }
+        }
+        vi dp(1<<k,LINF);
+        dp[0] = 0;
+        rep(bit,1<<k){
+            rep(j,p){
+                int ne = bit;
+                rep(k,l[j].size())ne |= (1<<l[j][k]);
+                dp[ne] = min(dp[ne], dp[bit]+d[j]);
+            }
+        }
+        int ans = LINF;
+        rep(bit,1<<k){
+            //パスポートを使って乗れる会社がbitのとき
+            int cost = dp[bit];//パスポートの料金
+            cost += dij.calc(s,t,ma,bit);//ma時間以内にsからtに向かうときの料金
+            ans = min(ans, cost);
+        }
+        if(ans == LINF)cout << -1 << endl;
+        else cout << ans << endl;
+    }
+}
+*/
