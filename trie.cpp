@@ -30,11 +30,13 @@ private:
 
     Node* root;
 
-    void print_dfs(Node* node){
+    void print_dfs(Node* node,string s){
         for(int i = 0; i < node->ind; i++)cout << "-";
-        cout << node->ch << "(" << node->self << "," << node->children << ")" << endl;
+        cout << node->ch << "(" << node->self << "," << node->children << ")";
+        if(node->self)cout << " " << s;
+        cout << endl;
         for(auto itr = node->child.begin(); itr != node->child.end(); itr++){
-            print_dfs(itr->second);
+            print_dfs(itr->second,s+itr->first);
         }
     }
 
@@ -97,14 +99,14 @@ public:
     }
 
     void print(void){
-        print_dfs(root);
+        print_dfs(root,"");
     }
 };
 
 int main(){
     TrieTree trie;
     trie.insert("ba");
-    trie.insert("abc");
+    trie.insert("abcde");
     trie.insert("ab");
     trie.insert("ba");
     trie.print();
