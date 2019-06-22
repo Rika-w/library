@@ -54,7 +54,7 @@ public:
             insert(vs[i]);
         }
     }
-    int insert(string s){
+    int insert(string s){//追加クエリ：文字列 t を追加する
         Node* node = root;
         node->children++;
         for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
@@ -73,7 +73,7 @@ public:
         }
         return ++node->self;//追加後のsの数
     }
-    int erase(string s){
+    int erase(string s){//削除クエリ：文字列 t を削除する
         Node* node = root;
         for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
             auto itr = node->child.find(s[i]);
@@ -100,7 +100,7 @@ public:
         return ret;//削除後のsの数(sが存在しない場合は-1を返す)
     }
 
-    int find(string s){//文字列sの個数
+    int find(string s){//検索クエリ：文字列 t が含まれるか？
         Node* node = root;
         for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
             auto itr = node->child.find(s[i]);
@@ -110,7 +110,20 @@ public:
                 node = itr->second;
             }
         }
-        return node->self;
+        return node->self;//文字列sの個数
+    }
+
+    int prefix(string s){//prefixクエリ：文字列 t をprefixとしてもつものがいくつあるか？
+        Node* node = root;
+        for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
+            auto itr = node->child.find(s[i]);
+            if(itr == node->child.end()){//ノードが存在しない
+                return 0;
+            }else{//たどる
+                node = itr->second;
+            }
+        }
+        return node->children;//子孫の個数
     }
 
     void print(void){
@@ -125,6 +138,6 @@ int main(){
     trie.insert("ab");
     trie.insert("ba");
     trie.print();
-    cout << trie.find("abc") << endl;
+    cout << trie.prefix("a") << endl;
     //trie.print();
 }
