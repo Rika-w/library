@@ -161,6 +161,30 @@ public:
         */
     }
 
+    string NthString(int n){//辞書順クエリ2：辞書順で N 番目の文字列はなにか？
+        string ret = "";
+        if(n <= 0)return ret;//存在しない時は "" が返る
+        Node* node = root;
+        int tmp = 0;
+        while(n <= tmp + node->children){
+            if(tmp < n && n <= tmp + node->self){
+                return ret; //辞書順で N 番目の文字列
+            }
+            tmp += node->self;
+            for(auto itr = node->child.begin(); itr != node->child.end(); itr++){
+                Node* ne = itr->second;
+                if(tmp + ne->children < n){
+                    tmp += ne->children;
+                }else{
+                    ret += itr->first;
+                    node = ne;
+                    break;
+                }
+            }
+        }
+        return ret;//存在しない時は "" が返る
+    }
+
     void print(void){
         print_dfs(root,"");
     }
@@ -171,8 +195,11 @@ int main(){
     trie.insert("ba");
     trie.insert("abcde");
     trie.insert("ab");
+    trie.insert("ab");
+    trie.insert("abe");
     trie.insert("abcx");
+    trie.insert("aa");
     trie.print();
-    cout << trie.lcp("abc") << endl;
+    cout << trie.NthString(7) << endl;
     //trie.print();
 }
