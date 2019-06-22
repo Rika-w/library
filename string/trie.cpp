@@ -11,6 +11,8 @@
 - 辞書順クエリ2：辞書順で N 番目の文字列はなにか？
 */
 
+//g++ --std=c++11 trie.cpp
+
 #include<iostream>
 #include<vector>
 #include<string>
@@ -98,6 +100,19 @@ public:
         return ret;//削除後のsの数(sが存在しない場合は-1を返す)
     }
 
+    int find(string s){//文字列sの個数
+        Node* node = root;
+        for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
+            auto itr = node->child.find(s[i]);
+            if(itr == node->child.end()){//ノードが存在しない
+                return 0;
+            }else{//たどる
+                node = itr->second;
+            }
+        }
+        return node->self;
+    }
+
     void print(void){
         print_dfs(root,"");
     }
@@ -110,6 +125,6 @@ int main(){
     trie.insert("ab");
     trie.insert("ba");
     trie.print();
-    cout << trie.erase("ba") << endl;
-    trie.print();
+    cout << trie.find("abc") << endl;
+    //trie.print();
 }
