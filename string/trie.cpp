@@ -126,6 +126,41 @@ public:
         return node->children;//子孫の個数
     }
 
+    string lcp(string t){//LCPクエリ：文字列 t とのLCPが最大になるような文字列はなにか？
+        string ret = "";
+        Node* node = root;
+        for(int i = 0; i < t.size(); i++){//nodeとt[i]が対応してる
+            auto itr = node->child.find(t[i]);
+            if(itr == node->child.end()){//ノードが存在しない
+                break;
+            }else{//たどる
+                node = itr->second;
+                ret += itr->first;
+            }
+        }
+
+        while(true){
+            if(node->self){
+                return ret;//LCPが最大になるような文字列のうち、辞書順最小
+            }else{
+                auto itr = node->child.begin();
+                ret += itr->first;
+                node = itr->second;
+            }
+        }
+        /*
+        while(true){
+            if(node->children == node->self){
+                return ret;//LCPが最大になるような文字列のうち、辞書順最大
+            }else{
+                auto itr = --node->child.end();
+                ret += itr->first;
+                node = itr->second;
+            }
+        }
+        */
+    }
+
     void print(void){
         print_dfs(root,"");
     }
@@ -136,10 +171,8 @@ int main(){
     trie.insert("ba");
     trie.insert("abcde");
     trie.insert("ab");
-    trie.insert("ba");
+    trie.insert("abcx");
     trie.print();
-    trie.erase("ba");
-    trie.print();
-    cout << trie.prefix("a") << endl;
+    cout << trie.lcp("abc") << endl;
     //trie.print();
 }
