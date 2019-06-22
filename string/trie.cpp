@@ -54,29 +54,29 @@ public:
             insert(vs[i]);
         }
     }
-    int insert(string s){//追加クエリ：文字列 t を追加する
+    int insert(string t){//追加クエリ：文字列 t を追加する
         Node* node = root;
         node->children++;
-        for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
-            auto itr = node->child.find(s[i]);
+        for(int i = 0; i < t.size(); i++){//nodeとt[i]が対応してる
+            auto itr = node->child.find(t[i]);
             if(itr == node->child.end()){//ノードが存在しない
-                node->child[s[i]] = new Node;
-                itr = node->child.find(s[i]);
+                node->child[t[i]] = new Node;
+                itr = node->child.find(t[i]);
                 itr->second->parent = node;
                 node = itr->second;
                 node->ind = i+1;
-                node->ch = s[i];
+                node->ch = t[i];
             }else{//たどる
                 node = itr->second;
             }
             node->children++;
         }
-        return ++node->self;//追加後のsの数
+        return ++node->self;//追加後のtの数
     }
-    int erase(string s){//削除クエリ：文字列 t を削除する
+    int erase(string t){//削除クエリ：文字列 t を削除する
         Node* node = root;
-        for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
-            auto itr = node->child.find(s[i]);
+        for(int i = 0; i < t.size(); i++){//nodeとt[i]が対応してる
+            auto itr = node->child.find(t[i]);
             if(itr == node->child.end()){//ノードが存在しない
                 return -1;
             }else{//たどる
@@ -97,26 +97,26 @@ public:
                 node = node->parent;
             }
         }
-        return ret;//削除後のsの数(sが存在しない場合は-1を返す)
+        return ret;//削除後のtの数(tが存在しない場合は-1を返す)
     }
 
-    int find(string s){//検索クエリ：文字列 t が含まれるか？
+    int find(string t){//検索クエリ：文字列 t が含まれるか？
         Node* node = root;
-        for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
-            auto itr = node->child.find(s[i]);
+        for(int i = 0; i < t.size(); i++){//nodeとt[i]が対応してる
+            auto itr = node->child.find(t[i]);
             if(itr == node->child.end()){//ノードが存在しない
                 return 0;
             }else{//たどる
                 node = itr->second;
             }
         }
-        return node->self;//文字列sの個数
+        return node->self;//文字列tの個数
     }
 
-    int prefix(string s){//prefixクエリ：文字列 t をprefixとしてもつものがいくつあるか？
+    int prefix(string t){//prefixクエリ：文字列 t をprefixとしてもつものがいくつあるか？
         Node* node = root;
-        for(int i = 0; i < s.size(); i++){//nodeとs[i]が対応してる
-            auto itr = node->child.find(s[i]);
+        for(int i = 0; i < t.size(); i++){//nodeとt[i]が対応してる
+            auto itr = node->child.find(t[i]);
             if(itr == node->child.end()){//ノードが存在しない
                 return 0;
             }else{//たどる
@@ -137,6 +137,8 @@ int main(){
     trie.insert("abcde");
     trie.insert("ab");
     trie.insert("ba");
+    trie.print();
+    trie.erase("ba");
     trie.print();
     cout << trie.prefix("a") << endl;
     //trie.print();
