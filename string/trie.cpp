@@ -185,6 +185,26 @@ public:
         return ret;//存在しない時は "" が返る
     }
 
+    int NthString(string t){//辞書順クエリ：文字列 t は辞書順で何番目か？
+        if(find(t) == 0)return -1; //存在しない場合は -1
+        int ret = 0;
+        Node* node = root;
+        for(int i = 0; i < t.size(); i++){//nodeとt[i]が対応してる
+            ret += node->self;
+            for(auto itr = node->child.begin(); itr != node->child.end(); itr++){
+                Node* ne = itr->second;
+                if(itr->first == t[i]){
+                    node = ne;
+                    break;
+                }else{
+                    ret += ne->children;
+                }
+            }
+        }
+        ret++;
+        return ret;//辞書順の番号
+    }
+
     void print(void){
         print_dfs(root,"");
     }
@@ -200,6 +220,6 @@ int main(){
     trie.insert("abcx");
     trie.insert("aa");
     trie.print();
-    cout << trie.NthString(7) << endl;
+    cout << trie.NthString("abe") << endl;
     //trie.print();
 }
