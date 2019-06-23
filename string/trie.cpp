@@ -1,5 +1,6 @@
 /*
-文字列集合Sを管理し、以下のクエリにO(|t|)で答える
+文字列集合Sを管理し、以下のクエリに O(|t|*log(X)) で答える (Xはアルファベットサイズ)
+ただし、辞書順クエリ、辞書順前後クエリは O(|t|*X*log(X))
 - 検索クエリ：文字列 t が含まれるか？
 - 追加クエリ：文字列 t を追加する
 - 削除クエリ：文字列 t を削除する
@@ -205,6 +206,19 @@ public:
         return ret;//辞書順の番号
     }
 
+    string NextString(string t){//辞書順前後クエリ：文字列 t の辞書順で次であるような文字列はなにか？
+        int num = find(t);
+        if(num == 0)return "";
+        int tmp = NthString(t);
+        return NthString(tmp+num);
+    }
+
+    string PrevString(string t){//辞書順前後クエリ：文字列 t の辞書順で前であるような文字列はなにか？
+        if(find(t) == 0)return "";
+        int tmp = NthString(t);
+        return NthString(tmp-1);
+    }
+
     void print(void){
         print_dfs(root,"");
     }
@@ -220,6 +234,6 @@ int main(){
     trie.insert("abcx");
     trie.insert("aa");
     trie.print();
-    cout << trie.NthString("abe") << endl;
+    cout << trie.NextString("abe") << endl;
     //trie.print();
 }
