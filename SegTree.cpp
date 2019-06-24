@@ -95,12 +95,23 @@ private:
 
     int n;
     vector<pii> seg;
+    //minクエリ
     pii init = pii(INF,INF); //初期化の値（単位元）
     pii combine(pii a, pii b){
         if(a.first == b.first && a.second < b.second)return a;
         if(a.first < b.first)return a;
         return b;
     }
+
+    /*
+    //maxクエリ
+    pii init = pii(-INF,-INF); //初期化の値（単位元）
+    pii combine(pii a, pii b){
+        if(a.first == b.first && a.second < b.second)return a;
+        if(a.first > b.first)return a;
+        return b;
+    }
+    */
 
 public:
 
@@ -116,18 +127,16 @@ public:
         }
     }
 
-    /*
-    //これいらない
-	SegTree(const vector<pii> &in){
-		n=1;
-		while(n<in.size())n<<=1;
-		seg=vector<pii>(2*n,init);
-		for(int i=n-1+in.size()-1;i>=0;i--){
-			if(n-1<=i)seg[i]=in[i-(n-1)];
-			else seg[i]=combine(seg[i*2+1],seg[i*2+2]);
-		}
-	}
-    */
+
+    //k番目の値を+aする
+    void add(int k, int a){
+        k += n-1;
+        seg[k].first += a;
+        while(k > 0){
+            k = (k-1)/2;
+            seg[k] = combine(seg[k*2+1], seg[k*2+2]);
+        }
+    }
 
     //[a,b)について調べる
     pii query(int a, int b, int k = 0, int l = 0, int r = -1){
