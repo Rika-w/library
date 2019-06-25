@@ -12,9 +12,9 @@ public:
     BIT(){}
     BIT(int size){
         n = size;
-        bit = vector<int>(n+1);
+        bit = vector<int>(n+1,0);
     }
-    //0からiまでの総和
+    //[0,i)のsum（内部実装は[1,i]）
     int sum(int i){
         int s = 0;
         while(i > 0){

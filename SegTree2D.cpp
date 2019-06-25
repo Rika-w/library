@@ -118,7 +118,7 @@ public:
 const int SegTree2D::init;
 
 //verify AOJ 2842
-//http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3687097#1 
+//http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3687097#1
 
 typedef pair<int,pii> pip;
 
