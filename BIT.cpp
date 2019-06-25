@@ -30,4 +30,10 @@ public:
             i += i & -i;
         }
     }
+    void show(){
+        for(int i = 1; i <= n; i++){
+            cout << " " << bit[i];
+        }
+        cout << endl;
+    }
 }
