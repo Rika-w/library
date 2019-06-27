@@ -1,7 +1,8 @@
+
 class Dinic{
 private:
     struct edge{int to,cap,rev;};
-    vector<edge> g;
+    vector<vector<edge> > g;
     vector<int> level,iter;
     int n;
 
@@ -44,12 +45,12 @@ public:
     Dinic(){}
     Dinic(int size){
         n = size;
-        g.assign(n);
+        g = vector<vector<edge> >(n);
     }
 
     void add_edge(int from, int to, int cap){
-        g[from].push_back(edge{to,cap,g[to].size()});
-        g[to].push_back(edge{from,0,g[from].size()-1});
+        g[from].push_back((edge){to,cap,g[to].size()});
+        g[to].push_back((edge){from,0,g[from].size()-1});
     }
 
     int max_flow(int s, int t){//sからtへの最大流  O(EV^2)
@@ -66,3 +67,18 @@ public:
     }
 
 };
+
+void GRL6a(){
+    int n,m;
+    cin >> n >> m;
+    Dinic dinic(n);
+    rep(i,m){
+        int a,b,c;
+        cin >> a >> b >> c;
+        dinic.add_edge(a,b,c);
+    }
+    cout << dinic.max_flow(0,n-1) << endl;
+}
+signed main(void) {
+    GRL6a();
+}
