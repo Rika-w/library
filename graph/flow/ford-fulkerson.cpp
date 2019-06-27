@@ -7,6 +7,7 @@ using namespace std;
 
 //ford-fulkerson
 //O(FE)
+//計算量が答えの出力（流れる量）に依存
 #define MAX_V 10000
 struct edge{ int to,cap,rev;};
 vector<edge> G[MAX_V];
