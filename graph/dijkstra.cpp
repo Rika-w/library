@@ -16,7 +16,7 @@ public:
 
     vi dist;
 
-    void add(int a, int b, int c){//無向辺
+    void add_edge(int a, int b, int c){//無向辺
         edge e1 = {b, c}, e2 = {a, c};
         g[a].push_back(e1);
         g[b].push_back(e2);//有向辺の場合はここをコメントアウトする
@@ -50,7 +50,7 @@ public:
 使い方
 
 Dijkstra g = Dijkstra(v); で頂点数vのグラフgを宣言
-g.add(a,b,c); で g に頂点 a,b 間のコストcの辺(無向辺)を追加 (0-indexed)
+g.add_edge(a,b,c); で g に頂点 a,b 間のコストcの辺(無向辺)を追加 (0-indexed)
 g.calc(s); でグラフg上の始点sの最短距離を計算する
 g.dist[i]; で頂点sから頂点iの最短距離を返す
 
@@ -75,7 +75,7 @@ int main(void) {
     rep(i,e){
         int a,b,c;
         cin >> a >> b >> c;
-        g.add(a,b,c);
+        g.add_edge(a,b,c);
     }
 
     g.calc(r);
@@ -115,7 +115,7 @@ public:
 
     int dist[10][200][200];
 
-    void add(int a, int b, int cost, int land){//無向辺
+    void add_edge(int a, int b, int cost, int land){//無向辺
         edge e1 = {b, cost, land}, e2 = {a, cost, land};
         g[a].push_back(e1);
         g[b].push_back(e2);//有向辺の場合はここをコメントアウトする
@@ -172,7 +172,7 @@ signed main(void) {
             string s;
             cin >> a >> b >> c >> s;
             a--,b--;
-            dij.add(a, b, c, s == "L");
+            dij.add_edge(a, b, c, s == "L");
         }
         int r;
         cin >> r;
@@ -210,7 +210,7 @@ public:
         g.resize(n);
     }
     int dist[105][25];//頂点iに時刻jでいるときの最小コスト
-    void add(int a, int b, int cost, int tim, int com){//無向辺
+    void add_edge(int a, int b, int cost, int tim, int com){//無向辺
         edge e1 = {b, cost, tim, com}, e2 = {a, cost, tim, com};
         g[a].push_back(e1);
         g[b].push_back(e2);//有向辺の場合はここをコメントアウトする
@@ -254,7 +254,7 @@ signed main(void) {
             int a,b,c,h,r;
             cin >> a >> b >> c >> h >> r;
             a--,b--;r--;
-            dij.add(a,b,c,h,r);
+            dij.add_edge(a,b,c,h,r);
         }
         int s,t;
         cin >> s >> t;

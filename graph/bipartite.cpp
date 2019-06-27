@@ -29,7 +29,7 @@ public:
         used = vector<int> (size);
     }
 
-    void add(int a,int b){//無向辺を追加
+    void add_edge(int a,int b){//無向辺を追加
         g[a].push_back(b);
         g[b].push_back(a);//有向辺の場合はここをコメントアウト
     }
@@ -73,7 +73,7 @@ public:
 /*
 使い方
 Bipartite bi(n);で n 頂点のグラフをつくる
-bi.add(a,b);で a,b間に辺をはる
+bi.add_edge(a,b);で a,b間に辺をはる
 bi.is_bipartite() で二部グラフかどうか判定する、このときbi.pには各連結成分での分けた時の頂点数が入っている
 bi.split() で二部グラフだった場合は、分けた時の頂点数の候補がvectorで返ってくる（二部グラフでないときは空）
 */
@@ -90,7 +90,7 @@ signed main(void) {
         rep(i,m){
             int a,b;
             cin >> a >> b;
-            bi.add(a-1,b-1);
+            bi.add_edge(a-1,b-1);
         }
         vi p = bi.split(),ans;
         rep(i,p.size())if(p[i] % 2 == 0)ans.push_back(p[i]/2);

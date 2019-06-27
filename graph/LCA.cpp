@@ -75,7 +75,7 @@ public:
         par.assign(h,vector<int>(n,-1));
     }
 
-    void add(int a, int b, int c){//無向辺
+    void add_edge(int a, int b, int c){//無向辺
         edge e1 = {b, c}, e2 = {a, c};
         g[a].push_back(e1);
         g[b].push_back(e2);//有向辺の場合はここをコメントアウトする
