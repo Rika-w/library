@@ -5,7 +5,7 @@
 class BIT{
 private:
     //[1,n]
-    vector<int> bit,
+    vector<int> bit;
     int n;
 
 public:
@@ -36,4 +36,4 @@ public:
         }
         cout << endl;
     }
-}
+};
