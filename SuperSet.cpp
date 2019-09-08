@@ -78,10 +78,14 @@ public:
 
     /*
     [1,N]の値を管理するset
-    add(x)はsetにxを追加する
-    erase(x)はsetに入っている値の小さい方からx番目を削除する(xは1以上要素数以下)
+    - add(x)
+        setにxを追加する
+        O(logN)
+    - erase(x)
+        setに入っている値の小さい方からx番目を削除する(xは1以上要素数以下)
+        たぶん O(log^2N)
     */
-    
+
 };
 
 int main(){
