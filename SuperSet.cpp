@@ -54,8 +54,8 @@ public:
         st.insert(x);
         bit.add(x,1);
     }
-    bool erase(int ind){//[0,st.size())
-        if(ind > bit.sum(n))return false;
+    int erase(int ind){//[0,st.size())
+        if(ind > bit.sum(n))return -1;
         int l = 0, r = n+1;
         while(r - l > 1){
             int mid = (l + r)/2;
@@ -64,7 +64,7 @@ public:
         }
         bit.add(l,-1);
         st.erase(l);
-        return true;
+        return l;
     }
     int size(){
         return st.size();
@@ -83,6 +83,7 @@ public:
         O(logN)
     - erase(x)
         setに入っている値の小さい方からx番目を削除する(xは1以上要素数以下)
+        返り値は削除した要素(存在しない場合は-1)
         たぶん O(log^2N)
     */
 
