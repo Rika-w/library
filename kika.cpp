@@ -34,8 +34,6 @@ typedef pair<int,int> pii;
 
 /////テンプレここから
 
-const double PI=acos(-1);
-const double EPS=1e-9; //うまくいかなかったらゆるめる
 typedef complex<double> P;
 typedef vector<P> G;
 #define shosu(x) fixed<<setprecision(x)
@@ -133,8 +131,35 @@ bool intersectSP(const L &s, const P &p) { //直線と点の交差判定
     return abs(s[0]-p)+abs(s[1]-p)-abs(s[1]-s[0]) < EPS; // 三角不等式
 }
 
-bool intersectSL(const L &s, const L &l){　//直線と線分の交差判定
+bool intersectSL(const L &s, const L &l){ //直線と線分の交差判定
     return cross(l[1] - l[0], s[0] - l[0]) * cross(l[1] - l[0], s[1] - l[0]) < EPS;
+}
+
+
+double distancePP(const P &p, const P &q){ //2点間の距離
+  return hypot(p.real()-q.real(), p.imag()-q.imag());
+}
+
+double distanceSP(const L &s, const P &p) {//線分と点との距離
+  const P r = projection(s, p);
+  if (intersectSP(s, r)) return abs(r - p);
+  return min(abs(s[0] - p), abs(s[1] - p));
+}
+
+double distanceSS(const L &s, const L &t) {//2線分の距離
+  if (intersectSS(s, t)) return 0;
+  return min(min(distanceSP(s, t[0]), distanceSP(s, t[1])),
+             min(distanceSP(t, s[0]), distanceSP(t, s[1])));
+}
+
+double distanceGL(const G &g, const L &l){//凸多角形と直線の距離
+    double ret = LINF;
+    int n = g.size();
+    rep(i,n){
+        L l2(g[i],g[(i+1)%n]);
+        ret = min(ret, distanceSS(l2,l));
+    }
+    return ret;
 }
 
 bool intersectCS(const C &c, const L &l){ //円と線分の交差判定
@@ -181,31 +206,6 @@ L crosspointCC(C a,C b){ //2円の交点
 	return L(p1, p2);
 }
 
-double distancePP(const P &p, const P &q){ //2点間の距離
-  return hypot(p.real()-q.real(), p.imag()-q.imag());
-}
-
-double distanceSP(const L &s, const P &p) {//線分と点との距離
-  const P r = projection(s, p);
-  if (intersectSP(s, r)) return abs(r - p);
-  return min(abs(s[0] - p), abs(s[1] - p));
-}
-
-double distanceSS(const L &s, const L &t) {//2線分の距離
-  if (intersectSS(s, t)) return 0;
-  return min(min(distanceSP(s, t[0]), distanceSP(s, t[1])),
-             min(distanceSP(t, s[0]), distanceSP(t, s[1])));
-}
-
-double distanceGL(const G &g, const L &l){//凸多角形と直線の距離
-    double ret = LINF;
-    int n = g.size();
-    rep(i,n){
-        L l2(g[i],g[(i+1)%n]);
-        ret = min(ret, distanceSS(l2,l));
-    }
-    return ret;
-}
 
 
 
@@ -341,6 +341,14 @@ P CircumscribedCircle(const G &g) { //三角形の外接円の半径
     L m2 = PerpendicularBisector(l2);
     return crosspointLL(m1, m2);
 }
+
+vector<L> getLine(G g){
+    int n = g.size();
+    vector<L> ret(n);
+    rep(i,n)ret[i] = L(g[i],g[(i+1)%n]);
+    return ret;
+}
+
 
 
 P inP(){
