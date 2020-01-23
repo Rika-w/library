@@ -342,6 +342,32 @@ P CircumscribedCircle(const G &g) { //三角形の外接円の半径
     return crosspointLL(m1, m2);
 }
 
+double min_circle(G g){//最小包含円の半径 O(N^2)
+	int n = g.size();
+	double x = 0, y = 0;
+	for (int i = 0; i < n; i++) {
+		x += g[i].real(); y += g[i].imag();
+	}
+	x /= n;
+	y /= n;
+	double p = 0.1, d = 0, e = 0;
+	for (int i = 0; i < 30000; i++) {
+		int f = 0;
+		d = (x - g[0].real())*(x - g[0].real()) + (y - g[0].imag())*(y - g[0].imag());
+		for (int j = 1; j < n; j++) {
+			e = (x - g[j].real())*(x - g[j].real()) + (y - g[j].imag())*(y - g[j].imag());
+			if (d < e) { d = e; f = j; }
+		}
+		x += (g[f].real() - x)*p;
+		y += (g[f].imag() - y)*p;
+		p *= 0.999;
+	}
+	return sqrt(d);
+	//O(N)はこっちを参考に https://tubo28.me/compprog/algorithm/minball/
+	//三分探索を二重にしてもとける https://www.youtube.com/watch?v=1oLDDdWRu6Y
+	//verify:ABC151 https://atcoder.jp/contests/abc151/submissions/9686300
+}
+
 vector<L> getLine(G g){
     int n = g.size();
     vector<L> ret(n);
