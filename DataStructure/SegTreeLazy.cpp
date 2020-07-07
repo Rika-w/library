@@ -55,7 +55,7 @@
          eval(k,l,r);
          if(b <= l || r <= a)return;
          if(a <= l && r <= b){
-             lazy[k] = x;
+             lazy[k] = lazy_update(lazy[k],x);
              eval(k,l,r);
          }else{
              update(a,b,x,2*k+1,l,(l+r)/2);
