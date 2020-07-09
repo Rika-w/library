@@ -181,6 +181,9 @@ public:
 	void add_par(int v, int x){//vとvの親の間の辺を+xする
 		add(v, par[v],x);
 	}
+	int get_depth(int v){
+        return depth[v];
+    }
 	void show(){
 		cout << "idx:";
 		for(auto x: idx)cout << " " << x;cout << endl;
