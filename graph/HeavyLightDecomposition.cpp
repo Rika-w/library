@@ -61,15 +61,16 @@ private:
 			//return a + b; // min query
 			//return b; // update query
 			//return b * (r-l); // sum query
+            //return max(a,b);
 		}
 
-		long long combine(long long a,long long b){
+	public:
+        long long combine(long long a,long long b){
 			return a+b; // sum query
 			//return max(a,b); // max query
 			//return min(a,b); // min query
 		}
 
-	public:
 		LazySegmentTree(){}
 		LazySegmentTree(vector<long long> in){
 			n = 1;
@@ -159,12 +160,12 @@ public:
 		return lca(u,par[head[v]]);
 	}
 
-	int query_sum(int u, int v){
+	int query(int u, int v){
 		if(idx[u] > idx[v])swap(u,v);
 		// u < v
 		//cout << "query:" << u << " " << v << " " << head[v] << endl;
 		if(head[u] == head[v])return lst.query(idx[u],idx[v]);
-		return query_sum(u,par[head[v]]) + lst.query(idx[head[v]]-1,idx[v]);
+		return lst.combine(query(u,par[head[v]]),lst.query(idx[head[v]]-1,idx[v]));
 	}
 	void add(int u, int v, int x){
 		if(idx[u] > idx[v])swap(u,v);
@@ -186,7 +187,6 @@ public:
 		lst.show();
 	}
 };
-
 
 
 //LCA verify : http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4643677#1
@@ -213,7 +213,7 @@ void grl5c(){
 	}
 }
 
-//verify : http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4650941#1
+//verify : http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4654825#1
 void grl5d(){
 	int n;
 	cin >> n;
@@ -237,7 +237,7 @@ void grl5d(){
 			int u;
 			cin >> u;
 			//0からuのsumを答える
-			cout << hld.query_sum(0,u) << endl;
+			cout << hld.query(0,u) << endl;
 		}else{
 			int v, w;
 			cin >> v >> w;
